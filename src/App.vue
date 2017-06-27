@@ -1,22 +1,30 @@
 <template>
   <div id="app">
-    <h1>
-      hello world!
-    </h1>
-    <el-form label-width="120px" :inline="true">
-      <el-form-item label="Activity name">
-        <el-input placeholder="Event title" v-model="input"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-      </el-form-item>
-    </el-form>
+    <div class="calendar">
+      <tile v-for="day in daysInMonth"
+            :key="$index"
+            :dayNumber="day"></tile>
+    </div>
+    <div class="sidebar">
+      <header>
+        <span>vuelendar</span>
+      </header>
+      <el-form :inline="true">
+        <el-form-item>
+          <el-input placeholder="Event title" v-model="input"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">Create</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script>
-  import Hello from './components/Hello'
+  import Tile from './components/Tile'
   import db from './firebaseInit'
+  import moment from 'moment'
 
   let eventsRef = db.ref('events')
 
@@ -32,6 +40,11 @@
         }
       }
     },
+    computed: {
+      daysInMonth () {
+        return moment().daysInMonth()
+      }
+    },
     methods: {
       onSubmit () {
         console.log('submitting')
@@ -41,7 +54,7 @@
       events: eventsRef
     },
     components: {
-      Hello
+      Tile
     }
   }
 </script>
@@ -56,29 +69,29 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+    display: flex;
   }
 
-  main {
-    text-align: center;
-    margin-top: 40px;
+  .calendar {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2px;
+    transition: all .5s;
+  }
+
+  .sidebar {
+
   }
 
   header {
-    margin: 0;
-    height: 56px;
-    padding: 0 16px 0 24px;
+    padding: 16px;
     background-color: #4fc08d;
     color: #ffffff;
-  }
-
-  header span {
-    display: block;
-    position: relative;
     font-size: 20px;
     line-height: 1;
-    letter-spacing: .02em;
-    font-weight: 400;
-    box-sizing: border-box;
-    padding-top: 16px;
+    text-align: center;
+    margin: 0 0 10px;
+
   }
 </style>
