@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <div class="calendar">
-      <tile v-for="day in daysInMonth"
-            :key="$index"
-            :dayNumber="day"></tile>
-    </div>
+    <calendar></calendar>
     <div class="sidebar">
       <header>
         <span>vuelendar</span>
@@ -22,11 +18,10 @@
 </template>
 
 <script>
-  import Tile from './components/Tile'
-  import db from './firebaseInit'
-  import moment from 'moment'
+  import Calendar from './components/Calendar'
+//  import db from './firebaseInit'
 
-  let eventsRef = db.ref('events')
+//  let eventsRef = db.ref('events')
 
   export default {
     name: 'app',
@@ -40,21 +35,16 @@
         }
       }
     },
-    computed: {
-      daysInMonth () {
-        return moment().daysInMonth()
-      }
-    },
     methods: {
       onSubmit () {
         console.log('submitting')
       }
     },
     firebase: {
-      events: eventsRef
+//      events: eventsRef
     },
     components: {
-      Tile
+      Calendar
     }
   }
 </script>
@@ -72,16 +62,8 @@
     display: flex;
   }
 
-  .calendar {
-    width: 80%;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 2px;
-    transition: all .5s;
-  }
-
   .sidebar {
-
+    width: 20%;
   }
 
   header {

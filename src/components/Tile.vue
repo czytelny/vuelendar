@@ -1,15 +1,22 @@
 <template>
-  <div class="tile">
+  <div class="tile" :class="{'today': isToday}">
     {{dayNumber}}
   </div>
 </template>
 
 <script>
+  import moment from 'moment'
+
   export default {
     name: 'tile',
     props: {
       dayNumber: Number,
       date: Object
+    },
+    computed: {
+      isToday () {
+        return this.dayNumber === moment().get('day')
+      }
     }
   }
 </script>
@@ -28,5 +35,9 @@
   .tile:hover {
     border: 1px solid #4fc08d;
     background-color: rgba(79, 192, 141, 0.09);
+  }
+
+  .today{
+    background-color: rgba(79, 192, 141, 0.25);
   }
 </style>
