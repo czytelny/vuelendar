@@ -25,12 +25,13 @@
 <style scoped>
   .tile {
     border: 1px solid #cecece;
-    width: 100px;
-    height: 100px;
+    min-height: 100px;
+    min-width: 100px;
     transition: all .3s;
     cursor: pointer;
-    border-radius: 2px;
-    margin:1px;
+    border-radius: 1px;
+    margin: 2px;
+    background-color: #fcfcfc;
   }
   .tile:hover {
     border: 1px solid #4fc08d;

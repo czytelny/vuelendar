@@ -12,6 +12,7 @@
 <script>
   import moment from 'moment'
   import Tile from './Tile'
+  import Shuffle from 'shufflejs'
 
   export default {
     name: 'calendar',
@@ -22,6 +23,13 @@
       currentMonth () {
         return moment().format('MMMM')
       }
+    },
+    mounted: function () {
+      /* eslint-disable no-new */
+      new Shuffle(document.querySelector('.workspace'), {
+        itemSelector: '.tile',
+        buffer: 1
+      })
     },
     components: {
       Tile
