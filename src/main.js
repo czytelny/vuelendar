@@ -2,7 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 // import VueFire from 'vuefire'
-import {Col, Row, Input, FormItem, Form, Button} from 'element-ui'
+import {Col, Row, Input, FormItem, Form, Button, Collapse,
+        CollapseItem} from 'element-ui'
 import App from './App'
 
 Vue.config.productionTip = false
@@ -13,6 +14,8 @@ Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Button)
+Vue.use(Collapse)
+Vue.use(CollapseItem)
 
 /* eslint-disable no-new */
 new Vue({

@@ -15,7 +15,7 @@
     },
     computed: {
       isToday () {
-        return this.dayNumber === moment().get('day')
+        return this.dayNumber === moment().date()
       }
     }
   }
