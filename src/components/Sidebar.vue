@@ -3,9 +3,11 @@
     <header>
       <span>vuelendar</span>
     </header>
-    <add-new-event v-on:eventSubmit="saveEvent"></add-new-event>
+    <add-new-event @eventSubmit="saveEvent"></add-new-event>
     <h3>Stats</h3>
-    <events-list :events="events"></events-list>
+    <events-list :events="events"
+                 @removeEvent="removeEvent">
+    </events-list>
   </div>
 
 </template>
@@ -27,6 +29,9 @@
         db.ref('events/').push({
           name: eventName
         })
+      },
+      removeEvent (eventId) {
+        db.ref(`events/${eventId}`).remove()
       }
     },
     components: {

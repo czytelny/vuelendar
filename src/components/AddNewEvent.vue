@@ -17,6 +17,7 @@
     methods: {
       eventSubmit () {
         this.$emit('eventSubmit', this.input)
+        this.input = null
       }
     }
   }
