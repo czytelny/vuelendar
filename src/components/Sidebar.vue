@@ -3,58 +3,35 @@
     <header>
       <span>vuelendar</span>
     </header>
-    <form v-on:submit.prevent="saveEvent">
-      <el-input placeholder="Event title" v-model="input">
-        <el-button type="submit" slot="append" @click="saveEvent">+</el-button>
-      </el-input>
-    </form>
+    <add-new-event v-on:eventSubmit="saveEvent"></add-new-event>
     <h3>Stats</h3>
-    <el-collapse v-model="activeName" accordion>
-      <el-collapse-item :name="event['.key']" v-for="event in events" :key="event['.key']">
-        <template slot="title">
-          {{event.name}}
-        </template>
-        <div>In this month:</div>
-        <div>Days since last:</div>
-        <div>Longest strike:</div>
-      </el-collapse-item>
-    </el-collapse>
+    <events-list :events="events"></events-list>
   </div>
 
 </template>
 
 <script>
   import db from './../firebaseInit'
-  import ElForm from '../../node_modules/element-ui/packages/form/src/form'
+  import AddNewEvent from './AddNewEvent'
+  import EventsList from './EventsList'
 
   let eventsRef = db.ref('events')
 
   export default {
-    components: {ElForm},
     name: 'sidebar',
-    data () {
-      return {
-        activeName: null,
-        input: null,
-        newEvent: {
-          title: '',
-          id: '',
-          date: new Date()
-        }
-      }
-    },
     firebase: {
       events: eventsRef
     },
     methods: {
-      writeEventDate (eventName) {
+      saveEvent (eventName) {
         db.ref('events/').push({
           name: eventName
         })
-      },
-      saveEvent () {
-        this.writeEventDate(this.input)
       }
+    },
+    components: {
+      AddNewEvent,
+      EventsList
     }
   }
 </script>
