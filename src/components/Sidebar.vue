@@ -10,9 +10,9 @@
     </form>
     <h3>Stats</h3>
     <el-collapse v-model="activeName" accordion>
-      <el-collapse-item name="1">
+      <el-collapse-item :name="event['.key']" v-for="event in events" :key="event['.key']">
         <template slot="title">
-          Training <i class="header-icon el-icon-information"></i>
+          {{event.name}}
         </template>
         <div>In this month:</div>
         <div>Days since last:</div>
@@ -26,6 +26,8 @@
 <script>
   import db from './../firebaseInit'
   import ElForm from '../../node_modules/element-ui/packages/form/src/form'
+
+  let eventsRef = db.ref('events')
 
   export default {
     components: {ElForm},
@@ -41,14 +43,17 @@
         }
       }
     },
+    firebase: {
+      events: eventsRef
+    },
     methods: {
-      writeEventDate (eventId, eventName) {
-        db.ref('events/' + eventId).set({
+      writeEventDate (eventName) {
+        db.ref('events/').push({
           name: eventName
         })
       },
       saveEvent () {
-        this.writeEventDate(1, this.input)
+        this.writeEventDate(this.input)
       }
     }
   }
@@ -57,7 +62,7 @@
 <style>
   .sidebar {
     width: 20%;
-    padding: 0 10px;
+    padding: 0 0 0 10px;
   }
 
   header {

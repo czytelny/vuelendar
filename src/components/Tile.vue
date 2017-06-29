@@ -29,8 +29,9 @@
     min-width: 100px;
     transition: all .3s;
     cursor: pointer;
-    border-radius: 1px;
+    border-radius: 3px;
     margin: 2px;
+    padding: 3px;
     background-color: #fcfcfc;
   }
   .tile:hover {

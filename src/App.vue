@@ -11,17 +11,6 @@
 
   export default {
     name: 'app',
-    data () {
-      return {
-        newEvent: {
-          title: '',
-          id: '',
-          date: new Date()
-        }
-      }
-    },
-    firebase: {
-    },
     components: {
       Calendar,
       Sidebar
