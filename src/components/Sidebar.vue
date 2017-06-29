@@ -3,9 +3,11 @@
     <header>
       <span>vuelendar</span>
     </header>
-        <el-input placeholder="Event title" v-model="input">
-          <el-button slot="append" @click="onSubmit">+</el-button>
-        </el-input>
+    <form v-on:submit.prevent="saveEvent">
+      <el-input placeholder="Event title" v-model="input">
+        <el-button type="submit" slot="append" @click="saveEvent">+</el-button>
+      </el-input>
+    </form>
     <h3>Stats</h3>
     <el-collapse v-model="activeName" accordion>
       <el-collapse-item name="1">
@@ -22,7 +24,11 @@
 </template>
 
 <script>
+  import db from './../firebaseInit'
+  import ElForm from '../../node_modules/element-ui/packages/form/src/form'
+
   export default {
+    components: {ElForm},
     name: 'sidebar',
     data () {
       return {
@@ -36,8 +42,13 @@
       }
     },
     methods: {
-      onSubmit () {
-        console.log('submitting')
+      writeEventDate (eventId, eventName) {
+        db.ref('events/' + eventId).set({
+          name: eventName
+        })
+      },
+      saveEvent () {
+        this.writeEventDate(1, this.input)
       }
     }
   }

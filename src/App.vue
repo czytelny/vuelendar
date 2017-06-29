@@ -8,9 +8,6 @@
 <script>
   import Calendar from './components/Calendar'
   import Sidebar from './components/Sidebar'
-//  import db from './firebaseInit'
-
-//  let eventsRef = db.ref('events')
 
   export default {
     name: 'app',
@@ -24,7 +21,6 @@
       }
     },
     firebase: {
-//      events: eventsRef
     },
     components: {
       Calendar,
