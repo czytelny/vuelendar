@@ -25,12 +25,11 @@
 <style scoped>
   .tile {
     border: 1px solid #cecece;
-    min-height: 100px;
+    min-height: 80px;
     min-width: 100px;
-    transition: all .3s;
-    cursor: pointer;
+    transition: all .5s;
     border-radius: 3px;
-    margin: 2px;
+    margin: 1px;
     padding: 3px;
     background-color: #fcfcfc;
   }

@@ -2,9 +2,14 @@
 <div class="calendar">
   <h1>{{currentMonth}}</h1>
   <div class="workspace">
-    <tile v-for="day in daysInMonth"
-          :key="day"
-          :dayNumber="day"></tile>
+    <el-row>
+      <el-col :xs="8" :sm="6" :md="4" :lg="3"
+              v-for="day in daysInMonth"
+              :key="day">
+        <tile :dayNumber="day"></tile>
+      </el-col>
+    </el-row>
+
   </div>
 </div>
 </template>
@@ -40,8 +45,6 @@
   }
 
   .workspace{
-    display: flex;
-    flex-wrap: wrap;
     margin: 2px;
   }
 
