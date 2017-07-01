@@ -36,7 +36,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .color-icon {
     display: inline-block;
     width: 13px;
@@ -45,7 +45,7 @@
     box-shadow: 1px 1px 1px rgb(211, 211, 211);
     transition: all .3s;
     margin-right: 3px;
-    margin-bottom: -3px;
+    margin-bottom: -2px;
   }
 
   .color-icon:hover{

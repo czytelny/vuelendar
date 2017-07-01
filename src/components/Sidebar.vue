@@ -9,16 +9,17 @@
       v-loading="loadingInProgress"
       element-loading-text="Loading..."
     >
-    <events-list :events="events"
-                 @removeEvent="removeEvent">
-    </events-list></div>
+      <events-list :events="events"
+                   @removeEvent="removeEvent">
+      </events-list>
+    </div>
   </div>
 
 </template>
 
 <script>
   import db from './../firebaseInit'
-  import { Notification } from 'element-ui'
+  import { Message } from 'element-ui'
   import AddNewEvent from './AddNewEvent'
   import EventsList from './EventsList'
   import randomColor from 'random-material-color'
@@ -42,15 +43,17 @@
     },
     methods: {
       saveEvent (eventName) {
-        db.ref('events/').push({
-          name: eventName,
-          color: randomColor.getColor()
-        })
-        Notification.success({
-          title: 'Success',
-          message: 'Event added',
-          type: 'success'
-        })
+        if (eventName.length !== 0) {
+          db.ref('events/').push({
+            name: eventName,
+            color: randomColor.getColor()
+          })
+          Message.success({
+            title: 'Success',
+            message: 'Event added',
+            type: 'success'
+          })
+        }
       },
       removeEvent (eventId) {
         db.ref(`events/${eventId}`).remove()

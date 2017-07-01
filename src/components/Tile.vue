@@ -1,7 +1,8 @@
 <template>
-  <div class="tile" :class="{'today': isToday}">
-    {{dayNumber}}
-
+  <div>
+    <div class="tile" :class="{'today': isToday}">
+      <div>{{dayNumber}}</div>
+    </div>
   </div>
 </template>
 

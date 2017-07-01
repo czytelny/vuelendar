@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import VueFire from 'vuefire'
 import {Col, Row, Input, FormItem, Form, Button, Collapse,
-        CollapseItem, Loading} from 'element-ui'
+        CollapseItem, Loading, Dialog} from 'element-ui'
 import App from './App'
 
 Vue.config.productionTip = false
@@ -16,6 +16,7 @@ Vue.use(FormItem)
 Vue.use(Button)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
+Vue.use(Dialog)
 Vue.use(Loading.directive)
 
 /* eslint-disable no-new */
