@@ -5,15 +5,20 @@
     </header>
     <add-new-event @eventSubmit="saveEvent"></add-new-event>
     <h3>Events</h3>
+    <div
+      v-loading="loadingInProgress"
+      element-loading-text="Loading..."
+    >
     <events-list :events="events"
                  @removeEvent="removeEvent">
-    </events-list>
+    </events-list></div>
   </div>
 
 </template>
 
 <script>
   import db from './../firebaseInit'
+  import { Notification } from 'element-ui'
   import AddNewEvent from './AddNewEvent'
   import EventsList from './EventsList'
   import randomColor from 'random-material-color'
@@ -22,14 +27,29 @@
 
   export default {
     name: 'sidebar',
+    data () {
+      return {
+        loadingInProgress: true
+      }
+    },
     firebase: {
-      events: eventsRef
+      events: {
+        source: eventsRef,
+        readyCallback: function () {
+          this.loadingInProgress = false
+        }
+      }
     },
     methods: {
       saveEvent (eventName) {
         db.ref('events/').push({
           name: eventName,
           color: randomColor.getColor()
+        })
+        Notification.success({
+          title: 'Success',
+          message: 'Event added',
+          type: 'success'
         })
       },
       removeEvent (eventId) {
