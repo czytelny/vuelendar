@@ -4,7 +4,7 @@
       <span>vuelendar</span>
     </header>
     <add-new-event @eventSubmit="saveEvent"></add-new-event>
-    <h3>Stats</h3>
+    <h3>Events</h3>
     <events-list :events="events"
                  @removeEvent="removeEvent">
     </events-list>
@@ -16,6 +16,7 @@
   import db from './../firebaseInit'
   import AddNewEvent from './AddNewEvent'
   import EventsList from './EventsList'
+  import randomColor from 'random-material-color'
 
   let eventsRef = db.ref('events')
 
@@ -27,7 +28,8 @@
     methods: {
       saveEvent (eventName) {
         db.ref('events/').push({
-          name: eventName
+          name: eventName,
+          color: randomColor.getColor()
         })
       },
       removeEvent (eventId) {

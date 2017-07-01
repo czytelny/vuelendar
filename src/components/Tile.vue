@@ -32,6 +32,7 @@
     margin: 1px;
     padding: 3px;
     background-color: #fcfcfc;
+    cursor: pointer;
   }
   .tile:hover {
     border: 1px solid #4fc08d;

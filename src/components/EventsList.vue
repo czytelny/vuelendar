@@ -1,14 +1,22 @@
 <template>
-  <el-collapse v-model="activeName" accordion>
-    <el-collapse-item :name="event['.key']" v-for="event in events" :key="event['.key']">
-      <template slot="title" class="title">
-        {{event.name}} <i class="el-icon el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
-      </template>
-      <div>In this month:</div>
-      <div>Days since last:</div>
-      <div>Longest strike:</div>
-    </el-collapse-item>
-  </el-collapse>
+  <div>
+
+    <el-collapse v-model="activeName" accordion>
+      <el-collapse-item :name="event['.key']" v-for="event in events" :key="event['.key']">
+        <template slot="title" class="title">
+          <span class="color-icon"
+                :style="{'background-color': event.color}"
+          ></span>
+          {{event.name}}
+          <i class="el-icon el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
+
+        </template>
+        <div>In this month:</div>
+        <div>Days since last:</div>
+        <div>Longest strike:</div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
 </template>
 
 <script>
@@ -28,7 +36,21 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .color-icon {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgb(211, 211, 211);
+    transition: all .3s;
+    margin-right: 3px;
+    margin-bottom: -3px;
+  }
+
+  .color-icon:hover{
+    border-radius: 50%;
+  }
 
   .el-icon {
     border: 1px solid #fff;
