@@ -8,7 +8,7 @@
 
 <script>
   export default {
-    name: 'sidebar',
+    name: 'addNewEvent',
     data () {
       return {
         input: null

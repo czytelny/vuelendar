@@ -24,23 +24,9 @@
   import EventsList from './EventsList'
   import randomColor from 'random-material-color'
 
-  let eventsRef = db.ref('events')
-
   export default {
     name: 'sidebar',
-    data () {
-      return {
-        loadingInProgress: true
-      }
-    },
-    firebase: {
-      events: {
-        source: eventsRef,
-        readyCallback: function () {
-          this.loadingInProgress = false
-        }
-      }
-    },
+    props: ['loadingInProgress', 'events'],
     methods: {
       saveEvent (eventName) {
         if (eventName.length !== 0) {

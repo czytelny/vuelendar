@@ -1,16 +1,32 @@
 <template>
   <div id="app">
-    <calendar></calendar>
-    <sidebar></sidebar>
+    <calendar :events="events"></calendar>
+    <sidebar :events="events"
+             :loadingInProgress="loadingInProgress">
+    </sidebar>
   </div>
 </template>
 
 <script>
   import Calendar from './components/Calendar'
   import Sidebar from './components/Sidebar'
+  import db from './firebaseInit'
 
   export default {
     name: 'app',
+    data () {
+      return {
+        loadingInProgress: true
+      }
+    },
+    firebase: {
+      events: {
+        source: db.ref('events'),
+        readyCallback: function () {
+          this.loadingInProgress = false
+        }
+      }
+    },
     components: {
       Calendar,
       Sidebar
@@ -29,5 +45,9 @@
 
   #app {
     display: flex;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 </style>
