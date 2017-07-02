@@ -4,7 +4,7 @@
       <span>vuelendar</span>
     </header>
     <add-new-event @eventSubmit="saveEvent"></add-new-event>
-    <h3>Events</h3>
+    <h3 ><span v-if="eventsHasItems">Events</span></h3>
     <div
       v-loading="loadingInProgress"
       element-loading-text="Loading..."
@@ -27,6 +27,11 @@
   export default {
     name: 'sidebar',
     props: ['loadingInProgress', 'events'],
+    computed: {
+      eventsHasItems () {
+        return this.events.length !== 0
+      }
+    },
     methods: {
       saveEvent (eventName) {
         if (eventName.length !== 0) {

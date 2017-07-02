@@ -2,6 +2,7 @@
   <div class="calendar">
     <h1>{{currentMonth}}</h1>
     <assign-event @closeAssignEventDialog="dialogVisible = false"
+                  :date="selectedDay"
                   :events="events"
                   :dialogVisible="dialogVisible"></assign-event>
     <div class="workspace">
@@ -9,7 +10,9 @@
         <el-col :xs="12" :sm="8" :md="4" :lg="3"
                 v-for="day in daysInMonth"
                 :key="day">
-          <tile @click.native="dialogVisible = true"
+          <tile @click.native="selectDay(day)"
+                :fullDate="fullDate(day)"
+                :events="events"
                 :dayNumber="day">
           </tile>
         </el-col>
@@ -30,7 +33,8 @@
     data () {
       return {
         dialogVisible: false,
-        loadingInProgress: true
+        selectedDay: null,
+        selectedMonth: moment().format('MMMM')
       }
     },
     computed: {
@@ -39,6 +43,18 @@
       },
       currentMonth () {
         return moment().format('MMMM')
+      },
+      eventsPerDay (dayNumber) {
+        return this.events
+      }
+    },
+    methods: {
+      fullDate (day) {
+        return moment().month(this.selectedMonth).date(day)
+      },
+      selectDay (day) {
+        this.dialogVisible = true
+        this.selectedDay = moment().set('date', day)
       }
     },
     components: {
