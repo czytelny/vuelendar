@@ -10,6 +10,7 @@
               <el-tooltip :content="event.name"
                           placement="top-start">
               <span class="color-icon"
+                    @click.stop="removeAssignment(event, assignment)"
                     :style="{'background-color': event.color}"></span>
            </el-tooltip></span>
 
@@ -45,6 +46,9 @@
       }
     },
     methods: {
+      removeAssignment (event, assignment) {
+        this.$emit('removeAssignment', {event, assignment})
+      },
       todayAssignments (event) {
         return _filter(event.assignments,
           item => moment(item).isSame(moment(this.fullDate), 'day'))

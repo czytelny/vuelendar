@@ -15,6 +15,7 @@
                 v-for="day in daysInMonth"
                 :key="day">
           <tile @click.native="selectDay(day)"
+                @removeAssignment="removeAssignment"
                 :fullDate="fullDate(day)"
                 :events="events"
                 :dayNumber="day">
@@ -28,6 +29,7 @@
 
 <script>
   import moment from 'moment'
+  import db from './../../firebaseInit'
   import Tile from './Tile'
   import AssignEvent from './AssignEvent'
 
@@ -56,6 +58,10 @@
       }
     },
     methods: {
+      removeAssignment ({event, assignment}) {
+        const assignmentKey = Object.keys(event.assignments).find((key) => event.assignments[key] === assignment)
+        db.ref(`events/${event['.key']}/assignments/${assignmentKey}`).remove()
+      },
       fullDate (day) {
         return moment().year(this.selectedMonth.format('YYYY')).month(this.selectedMonth.format('MMMM')).date(day)
       },
