@@ -31,6 +31,7 @@
       },
       assignEvent (event) {
         db.ref('events/' + event['.key']).child('assignments').push().set(this.date.valueOf())
+        this.closeDialog()
       }
     }
   }
