@@ -6,6 +6,7 @@
         <template slot="title" class="title">
           <span class="color-icon"
                 :style="{'background-color': event.color}"
+                @click="showColorPicker(event.color)"
           ></span>
           {{event.name}}
           <i class="el-icon el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
@@ -16,22 +17,45 @@
         <div>Longest strike:</div>
       </el-collapse-item>
     </el-collapse>
+    <div @click="hideColorPicker()">
+      <sketch-picker v-if="colorPickerVisible"
+                     v-model="pickedColor"
+      ></sketch-picker>
+    </div>
   </div>
 </template>
 
 <script>
+  import { Sketch } from 'vue-color'
+
   export default {
     name: 'EventsList',
     props: ['events'],
     data () {
       return {
-        activeName: null
+        activeName: null,
+        pickedColor: '',
+        colorPickerVisible: false
       }
     },
     methods: {
       removeEvent (eventId) {
         this.$emit('removeEvent', eventId)
+      },
+      showColorPicker (color) {
+        this.colorPickerVisible = true
+        this.pickedColor = color
+      },
+      hideColorPicker () {
+//        this.colorPickerVisible = false
+        const eventId = this.activeName
+        const color = this.pickedColor.hex
+        console.log(eventId, color)
+        this.$emit('changeColor', {eventId, color})
       }
+    },
+    components: {
+      'sketch-picker': Sketch
     }
   }
 </script>
@@ -48,7 +72,7 @@
     margin-bottom: -2px;
   }
 
-  .color-icon:hover{
+  .color-icon:hover {
     border-radius: 50%;
   }
 

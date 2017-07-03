@@ -10,6 +10,7 @@
       element-loading-text="Loading..."
     >
       <events-list :events="events"
+                   @changeColor="changeColor"
                    @removeEvent="removeEvent">
       </events-list>
     </div>
@@ -48,6 +49,10 @@
       },
       removeEvent (eventId) {
         db.ref(`events/${eventId}`).remove()
+      },
+      changeColor ({eventId, color}) {
+        console.log(eventId)
+        db.ref(`events/${eventId}`).update({color})
       }
     },
     components: {
