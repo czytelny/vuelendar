@@ -1,6 +1,10 @@
 <template>
   <div class="calendar">
-    <h1>{{currentMonth}}</h1>
+    <h1>
+      <i class="el-icon-arrow-left pointer" @click="previousMonth()"></i>
+      {{selectedMonthText}} {{selectedYearText}}
+      <i class="el-icon-arrow-right pointer" @click="nextMonth()"></i>
+    </h1>
     <assign-event @closeAssignEventDialog="dialogVisible = false"
                   :date="selectedDay"
                   :events="events"
@@ -34,15 +38,18 @@
       return {
         dialogVisible: false,
         selectedDay: null,
-        selectedMonth: moment().format('MMMM')
+        selectedMonth: moment()
       }
     },
     computed: {
       daysInMonth () {
         return moment().daysInMonth()
       },
-      currentMonth () {
-        return moment().format('MMMM')
+      selectedMonthText () {
+        return this.selectedMonth.format('MMMM')
+      },
+      selectedYearText () {
+        return this.selectedMonth.format('YYYY')
       },
       eventsPerDay (dayNumber) {
         return this.events
@@ -50,11 +57,17 @@
     },
     methods: {
       fullDate (day) {
-        return moment().month(this.selectedMonth).date(day)
+        return moment().year(this.selectedMonth.format('YYYY')).month(this.selectedMonth.format('MMMM')).date(day)
       },
       selectDay (day) {
         this.dialogVisible = true
         this.selectedDay = moment().set('date', day)
+      },
+      previousMonth () {
+        this.selectedMonth = moment(this.selectedMonth.subtract(1, 'month'))
+      },
+      nextMonth () {
+        this.selectedMonth = moment(this.selectedMonth.add(1, 'month'))
       }
     },
     components: {

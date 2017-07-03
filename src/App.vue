@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import Calendar from './components/Calendar'
+  import Calendar from './components/calendar/Calendar'
   import Sidebar from './components/Sidebar'
   import db from './firebaseInit'
 

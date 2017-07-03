@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="tile" :class="{'today': isToday}">
-      <div>{{dayNumber}}</div>
+    <div class="tile" :class="{'today': isToday,
+                               'weekend': isWeekend,
+                               'sunday': isSunday}">
+      <div>{{dayNumber}} <span v-if="isToday">(today)</span></div>
+
       <span v-for="event in todayEvents">
             <span v-for="assignment in todayAssignments(event)">
               <el-tooltip :content="event.name"
@@ -30,8 +33,15 @@
           )
         )
       },
+      isWeekend () {
+        const dayOfWeek = this.fullDate.day()
+        return (dayOfWeek === 6) || (dayOfWeek === 0)
+      },
       isToday () {
-        return this.dayNumber === moment().date()
+        return this.fullDate.isSame(moment(), 'day')
+      },
+      isSunday () {
+        return (this.fullDate.day() === 0)
       }
     },
     methods: {
@@ -64,5 +74,14 @@
 
   .today {
     background-color: rgba(79, 192, 141, 0.25);
+    border: 1px solid #4fc08d;
+  }
+
+  .weekend {
+    background-color: #f1f1f1;
+  }
+
+  .sunday {
+    color: #FF4949;
   }
 </style>
