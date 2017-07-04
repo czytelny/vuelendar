@@ -10,19 +10,14 @@
                   :events="events"
                   :dialogVisible="dialogVisible"></assign-event>
     <div class="workspace">
-      <el-row>
-        <el-col :xs="12" :sm="8" :md="4" :lg="3"
-                v-for="day in daysInMonth"
-                :key="day">
-          <tile @click.native="selectDay(day)"
-                @removeAssignment="removeAssignment"
-                :fullDate="fullDate(day)"
-                :events="events"
-                :dayNumber="day">
-          </tile>
-        </el-col>
-      </el-row>
-
+      <tile v-for="item in daysInMonth"
+            :key="item.format()"
+            @click.native="selectDay(item.date())"
+            @removeAssignment="removeAssignment"
+            :selectedMonth="selectedMonth"
+            :events="events"
+            :day="item">
+      </tile>
     </div>
   </div>
 </template>
@@ -45,7 +40,17 @@
     },
     computed: {
       daysInMonth () {
-        return moment().daysInMonth()
+        const previousMonthLength = moment(this.selectedMonth).subtract(1, 'month').daysInMonth()
+        const weekDay = moment(this.selectedMonth).date(1).isoWeekday()
+        const daysArray = []
+        for (let i = previousMonthLength; i > previousMonthLength - (weekDay - 1); i--) {
+          daysArray.push(moment(this.selectedMonth).subtract(1, 'month').date(i))
+        }
+        daysArray.reverse()
+        for (let i = 1; i <= this.selectedMonth.daysInMonth(); i++) {
+          daysArray.push(moment(this.selectedMonth).date(i))
+        }
+        return daysArray
       },
       selectedMonthText () {
         return this.selectedMonth.format('MMMM')
@@ -61,9 +66,6 @@
       removeAssignment ({event, assignment}) {
         const assignmentKey = Object.keys(event.assignments).find((key) => event.assignments[key] === assignment)
         db.ref(`events/${event['.key']}/assignments/${assignmentKey}`).remove()
-      },
-      fullDate (day) {
-        return moment().year(this.selectedMonth.format('YYYY')).month(this.selectedMonth.format('MMMM')).date(day)
       },
       selectDay (day) {
         this.dialogVisible = true
@@ -95,6 +97,8 @@
   }
 
   .workspace {
+    display: flex;
+    flex-wrap: wrap;
     margin: 2px;
   }
 </style>

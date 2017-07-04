@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div class="tile" :class="{'today': isToday,
-                               'weekend': isWeekend,
-                               'sunday': isSunday}">
-      <div>{{dayNumber}} <span v-if="isToday">(today)</span></div>
+  <div class="tile" :class="{'today': isToday,
+                              'weekend': isWeekend,
+                              'sunday': isSunday,
+                              'isPastMonth': isPastMonth}">
+    <div>{{day.date()}} <span v-if="isToday">(today)</span></div>
 
-      <span v-for="event in todayEvents">
+    <span v-for="event in todayEvents">
             <span v-for="assignment in todayAssignments(event)">
               <el-tooltip :content="event.name"
                           placement="top-start">
@@ -15,7 +15,6 @@
            </el-tooltip></span>
 
            </span>
-    </div>
   </div>
 </template>
 
@@ -25,24 +24,27 @@
 
   export default {
     name: 'tile',
-    props: ['dayNumber', 'fullDate', 'events'],
+    props: ['day', 'events', 'selectedMonth'],
     computed: {
       todayEvents () {
         return _filter(this.events,
           item => Object.keys(item.assignments || {}).find(
-            key => moment(item.assignments[key]).isSame(this.fullDate, 'day')
+            key => moment(item.assignments[key]).isSame(this.day, 'day')
           )
         )
       },
       isWeekend () {
-        const dayOfWeek = this.fullDate.day()
+        const dayOfWeek = this.day.day()
         return (dayOfWeek === 6) || (dayOfWeek === 0)
       },
       isToday () {
-        return this.fullDate.isSame(moment(), 'day')
+        return this.day.isSame(moment(), 'day')
       },
       isSunday () {
-        return (this.fullDate.day() === 0)
+        return (this.day.day() === 0)
+      },
+      isPastMonth () {
+        return this.day.isBefore(this.selectedMonth, 'month')
       }
     },
     methods: {
@@ -51,7 +53,7 @@
       },
       todayAssignments (event) {
         return _filter(event.assignments,
-          item => moment(item).isSame(moment(this.fullDate), 'day'))
+          item => moment(item).isSame(moment(this.day), 'day'))
       }
     }
   }
@@ -62,7 +64,7 @@
   .tile {
     border: 1px solid #cecece;
     min-height: 100px;
-    min-width: 100px;
+    width: 13%;
     transition: all .5s;
     border-radius: 3px;
     margin: 1px;
@@ -87,5 +89,10 @@
 
   .sunday {
     color: #FF4949;
+  }
+
+  .isPastMonth {
+    background-color: #dbdbdb;
+    opacity: .25;
   }
 </style>
