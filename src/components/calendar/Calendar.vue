@@ -12,7 +12,7 @@
     <div class="workspace">
       <tile v-for="item in daysInMonth"
             :key="item.format()"
-            @click.native="selectDay(item.date())"
+            @click.native="selectDay(item)"
             @removeAssignment="removeAssignment"
             :selectedMonth="selectedMonth"
             :events="events"
@@ -68,8 +68,11 @@
         db.ref(`events/${event['.key']}/assignments/${assignmentKey}`).remove()
       },
       selectDay (day) {
+        if (day.isBefore(this.selectedMonth, 'month')) {
+          return
+        }
         this.dialogVisible = true
-        this.selectedDay = moment().set('date', day)
+        this.selectedDay = day
       },
       previousMonth () {
         this.selectedMonth = moment(this.selectedMonth.subtract(1, 'month'))
