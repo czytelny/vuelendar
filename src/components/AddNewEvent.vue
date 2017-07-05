@@ -1,6 +1,6 @@
 <template>
   <form v-on:submit.prevent="eventSubmit">
-    <el-input placeholder="Event title" v-model="input">
+    <el-input placeholder="Event title" v-model="input" :maxlength="26">
       <el-button type="submit" slot="append" @click="eventSubmit">+</el-button>
     </el-input>
   </form>

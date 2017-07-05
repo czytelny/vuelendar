@@ -64,6 +64,7 @@
   .tile {
     border: 1px solid #cecece;
     min-height: 100px;
+    min-width: 60px;
     width: 13%;
     transition: all .5s;
     border-radius: 3px;

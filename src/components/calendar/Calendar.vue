@@ -1,10 +1,13 @@
 <template>
   <div class="calendar">
     <h1>
-      <i class="el-icon-arrow-left pointer" @click="previousMonth()"></i>
       {{selectedMonthText}} {{selectedYearText}}
-      <i class="el-icon-arrow-right pointer" @click="nextMonth()"></i>
+      <div class="monthSwitcher">
+        <i class="el-icon el-icon-arrow-left pointer" @click="previousMonth()"></i>
+        <i class="el-icon el-icon-arrow-right pointer" @click="nextMonth()"></i>
+      </div>
     </h1>
+
     <assign-event @closeAssignEventDialog="dialogVisible = false"
                   :date="selectedDay"
                   :events="events"
@@ -92,11 +95,22 @@
 <style scoped>
   h1 {
     text-align: center;
-    text-shadow: 1px 1px 5px rgba(150, 150, 150, 1);
+  }
+  .monthSwitcher{
+    text-align: center;
   }
 
-  .calendar {
-    width: 80%;
+  .monthSwitcher i {
+    border: 1px solid #cece;
+    font-size: .5em;
+  }
+
+
+  @media (max-width: 767px) {
+    h1 {
+      text-align: center;
+      font-size: 1.5em;
+    }
   }
 
   .workspace {

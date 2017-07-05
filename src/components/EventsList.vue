@@ -9,7 +9,7 @@
                 @click="showColorPicker(event.color)"
           ></span>
           {{event.name}}
-          <i class="el-icon el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
+          <i class="el-icon float-right el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
 
         </template>
         <div>In this month:</div>
@@ -77,13 +77,14 @@
   }
 
   .el-icon {
-    border: 1px solid #fff;
-    border-radius: 2px;
+    border: 1px solid #f9f9f9;
+    border-radius: 3px;
     padding: 3px;
     transition: all .3s;
-    float: right;
     margin: 10px;
+    background-color: rgba(255, 255, 255, 0.75);
   }
+
 
   .el-icon:hover {
     border: 1px solid #cecece;

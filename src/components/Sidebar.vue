@@ -1,10 +1,10 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar hidden-sm-down">
     <header>
       <span>vuelendar</span>
     </header>
     <add-new-event @eventSubmit="saveEvent"></add-new-event>
-    <h3 ><span v-if="eventsHasItems">Events</span></h3>
+    <h3><span v-if="eventsHasItems">Events</span></h3>
     <div
       v-loading="loadingInProgress"
       element-loading-text="Loading..."
@@ -65,6 +65,7 @@
 <style>
   .sidebar {
     width: 20%;
+    min-width: 250px;
     padding: 0 0 0 10px;
   }
 
@@ -76,5 +77,11 @@
     line-height: 1;
     text-align: center;
     margin: 0 0 10px;
+  }
+
+  @media (max-width: 767px) {
+    .hidden-sm-down {
+      display: none !important
+    }
   }
 </style>
