@@ -10,21 +10,24 @@
           {{event.name}}
           <i class="el-icon float-right el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
         </template>
-        <div>In this month:</div>
-        <div>Days since last:</div>
+        <div>In this month: {{assignmentsInThisMonth(event)}}</div>
+        <div>Days since last: {{daysSinceLast(event)}}</div>
         <div>Longest strike:</div>
       </el-collapse-item>
     </el-collapse>
     <div class="color-picker-container" v-if="colorPickerVisible">
       <chrome-picker v-model="pickedColor"
       ></chrome-picker>
-     <el-button @click="hideColorPicker()" type="primary" size="small">OK </el-button>
+      <el-button @click="hideColorPicker()" type="primary" size="small">OK </el-button>
     </div>
   </div>
 </template>
 
 <script>
   import { Chrome } from 'vue-color'
+  import _filter from 'lodash/filter'
+  import _each from 'lodash/each'
+  import moment from 'moment'
 
   export default {
     name: 'EventsList',
@@ -50,16 +53,35 @@
         this.colorPickerVisible = false
         const color = this.pickedColor.hex ? this.pickedColor.hex : this.pickedColor
         this.$emit('changeColor', {eventId: this.pickedEvent['.key'], color})
+      },
+      assignmentsInThisMonth (event) {
+        return _filter(event.assignments, (item) => moment(item).isSame(moment(), 'month')).length
+      },
+      daysSinceLast (event) {
+        if (!event.assignments) {
+          return 0
+        }
+        if (event.assignments.length < 2) {
+          return 0
+        }
+        let closestDate = moment('1970-01-01 00:00:00')
+        return _each(event.assignments, (item) => {
+          if (moment(item).isBefore(moment(), 'day') && (moment(item).isAfter(moment(closestDate)))) {
+            closestDate = moment(item)
+          }
+          console.log(event.name, closestDate)
+          return closestDate
+        })
+      },
+      components: {
+        'chrome-picker': Chrome
       }
-    },
-    components: {
-      'chrome-picker': Chrome
     }
   }
 </script>
 
 <style>
-  .eventList{
+  .eventList {
     position: relative;
   }
 
@@ -74,13 +96,13 @@
     margin-bottom: -2px;
   }
 
-  .color-picker-container{
+  .color-picker-container {
     box-sizing: border-box;
     padding-left: 13px;
     padding-top: 13px;
     position: absolute;
     top: 0;
-    width:100%;
+    width: 100%;
     height: 100%;
     background-color: rgba(251, 251, 251, 0.8);
     text-align: center;
@@ -102,7 +124,6 @@
     margin: 10px;
     background-color: rgba(255, 255, 255, 0.75);
   }
-
 
   .el-icon:hover {
     border: 1px solid #cecece;
