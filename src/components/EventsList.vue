@@ -1,32 +1,30 @@
 <template>
-  <div>
-
+  <div class="eventList">
     <el-collapse v-model="activeName" accordion>
       <el-collapse-item :name="event['.key']" v-for="event in events" :key="event['.key']">
         <template slot="title" class="title">
           <span class="color-icon"
                 :style="{'background-color': event.color}"
-                @click="showColorPicker(event.color)"
+                @click.stop="showColorPicker(event)"
           ></span>
           {{event.name}}
           <i class="el-icon float-right el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
-
         </template>
         <div>In this month:</div>
         <div>Days since last:</div>
         <div>Longest strike:</div>
       </el-collapse-item>
     </el-collapse>
-    <div @click="hideColorPicker()">
-      <sketch-picker v-if="colorPickerVisible"
-                     v-model="pickedColor"
-      ></sketch-picker>
+    <div class="color-picker-container" v-if="colorPickerVisible">
+      <chrome-picker v-model="pickedColor"
+      ></chrome-picker>
+     <el-button @click="hideColorPicker()" type="primary" size="small">OK </el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import { Sketch } from 'vue-color'
+  import { Chrome } from 'vue-color'
 
   export default {
     name: 'EventsList',
@@ -35,6 +33,7 @@
       return {
         activeName: null,
         pickedColor: '',
+        pickedEvent: null,
         colorPickerVisible: false
       }
     },
@@ -42,25 +41,28 @@
       removeEvent (eventId) {
         this.$emit('removeEvent', eventId)
       },
-      showColorPicker (color) {
+      showColorPicker (event) {
         this.colorPickerVisible = true
-        this.pickedColor = color
+        this.pickedEvent = event
+        this.pickedColor = event.color
       },
       hideColorPicker () {
-//        this.colorPickerVisible = false
-        const eventId = this.activeName
-        const color = this.pickedColor.hex
-        console.log(eventId, color)
-        this.$emit('changeColor', {eventId, color})
+        this.colorPickerVisible = false
+        const color = this.pickedColor.hex ? this.pickedColor.hex : this.pickedColor
+        this.$emit('changeColor', {eventId: this.pickedEvent['.key'], color})
       }
     },
     components: {
-      'sketch-picker': Sketch
+      'chrome-picker': Chrome
     }
   }
 </script>
 
 <style>
+  .eventList{
+    position: relative;
+  }
+
   .color-icon {
     display: inline-block;
     width: 13px;
@@ -70,6 +72,22 @@
     transition: all .3s;
     margin-right: 3px;
     margin-bottom: -2px;
+  }
+
+  .color-picker-container{
+    box-sizing: border-box;
+    padding-left: 13px;
+    padding-top: 13px;
+    position: absolute;
+    top: 0;
+    width:100%;
+    height: 100%;
+    background-color: rgba(251, 251, 251, 0.8);
+    text-align: center;
+  }
+
+  .color-picker-container button {
+    margin-top: 3px;
   }
 
   .color-icon:hover {
