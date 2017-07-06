@@ -99,10 +99,13 @@
   .isPastMonth {
     background-color: #dbdbdb;
     opacity: .25;
+    text-shadow: 1px 1px 2px rgba(62, 62, 62, 0.7);
   }
 
   .isDayInFuture{
-    background-color: #e0f6f9;
-    opacity: .3;
+    opacity: .15;
+    -moz-box-shadow: 0 0 3px rgba(40, 58, 79, 0.51);
+    -webkit-box-shadow: 0 0 3px rgba(40, 58, 79, 0.51);
+    box-shadow: inset 0 0 3px rgba(40, 58, 79, 0.51);
   }
 </style>

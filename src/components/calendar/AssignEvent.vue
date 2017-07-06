@@ -1,8 +1,9 @@
 <template>
   <el-dialog
     title="Assign event"
-    :visible.sync="dialogVisible"
+    :visible="dialogVisible"
     size="tiny"
+    :before-close="closeDialog"
   >
     <div v-for="event in events"
          :key="event['.key']"

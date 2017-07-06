@@ -73,6 +73,7 @@
       },
       selectDay (day) {
         if (day.isBefore(this.selectedMonth, 'month')) {
+          this.previousMonth()
           return
         }
         if (day.isAfter(moment(), 'day')) {
