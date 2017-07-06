@@ -76,8 +76,8 @@
           return
         }
         if (day.isAfter(moment(), 'day')) {
-          MessageBox.alert('Whoops, can\'t assign event to a future date! By assigning event you mark what have happened, not what will happen', 'Future day', {
-            confirmButtonText: 'OK'})
+          MessageBox.alert('Whoops, can\'t assign event to a future date! By assigning event you mark what have ' +
+            'happened, not what will happen', 'Future day', {confirmButtonText: 'OK'})
           return
         }
         this.dialogVisible = true
@@ -103,7 +103,8 @@
   h1 {
     text-align: center;
   }
-  .monthSwitcher{
+
+  .monthSwitcher {
     text-align: center;
   }
 
@@ -111,7 +112,6 @@
     border: 1px solid #cece;
     font-size: .5em;
   }
-
 
   @media (max-width: 767px) {
     h1 {

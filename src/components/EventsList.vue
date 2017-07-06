@@ -13,16 +13,17 @@
         <el-row>
           <el-col :span="12">In this month</el-col>
           <el-col :span="4" class="bold">{{assignmentsInThisMonth(event)}}</el-col>
-        </el-row><el-row>
+        </el-row>
+        <el-row>
           <el-col :span="12">Days since last</el-col>
           <el-col :span="4" class="bold">{{daysSinceLast(event)}}</el-col>
         </el-row>
       </el-collapse-item>
     </el-collapse>
     <div class="color-picker-container" v-if="colorPickerVisible">
-      <chrome-picker v-model="pickedColor"
-      ></chrome-picker>
-      <el-button @click="hideColorPicker()" type="primary" size="small">OK </el-button>
+      <chrome-picker
+        v-model="pickedColor"></chrome-picker>
+      <el-button @click="hideColorPicker()" type="primary" size="small">Pick color</el-button>
     </div>
   </div>
 </template>
@@ -63,10 +64,11 @@
       },
       daysSinceLast (event) {
         let closestDate = moment('1970-01-01 00:00:00')
+        const today = moment().startOf('day')
+
         if (!event.assignments || event.assignments.length < 2) {
           return 0
         }
-        const today = moment().startOf('day')
         _each(event.assignments, (item) => {
           const itemDate = moment(item)
           if (itemDate.isSame(today, 'day')) {
@@ -80,10 +82,10 @@
           return 0
         }
         return today.diff(closestDate, 'days')
-      },
-      components: {
-        'chrome-picker': Chrome
       }
+    },
+    components: {
+      'chrome-picker': Chrome
     }
   }
 </script>
@@ -92,6 +94,7 @@
   .eventList {
     position: relative;
   }
+
   .bold {
     font-weight: bold;
   }
