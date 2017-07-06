@@ -33,6 +33,7 @@
   import _filter from 'lodash/filter'
   import _each from 'lodash/each'
   import moment from 'moment'
+  import { MessageBox, Message } from 'element-ui'
 
   export default {
     name: 'EventsList',
@@ -47,7 +48,16 @@
     },
     methods: {
       removeEvent (eventId) {
-        this.$emit('removeEvent', eventId)
+        MessageBox.confirm('This will permanently delete the event and all assignments. Continue?', 'Warning', {
+          confirmButtonText: 'Yup',
+          cancelButtonText: 'No!',
+          type: 'warning'
+        }).then(() => {
+          this.$emit('removeEvent', eventId)
+          Message.success({
+            message: 'Event removed'
+          })
+        }).catch(() => {})
       },
       showColorPicker (event) {
         this.colorPickerVisible = true

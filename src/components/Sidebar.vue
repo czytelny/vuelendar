@@ -10,6 +10,7 @@
       element-loading-text="Loading..."
     >
       <events-list :events="events"
+                   v-if="eventsHasItems"
                    @changeColor="changeColor"
                    @removeEvent="removeEvent">
       </events-list>

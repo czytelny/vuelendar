@@ -78,7 +78,12 @@
         }
         if (day.isAfter(moment(), 'day')) {
           MessageBox.alert('Whoops, can\'t assign event to a future date! By assigning event you mark what have ' +
-            'happened, not what will happen', 'Future day', {confirmButtonText: 'OK'})
+            'happened, not what will happen', 'Future day', {confirmButtonText: 'OK', closeOnPressEscape: true})
+          return
+        }
+        if (this.events.length === 0) {
+          MessageBox.alert('First, you need to add an event. Then you can assign it to a day', 'No events',
+            {confirmButtonText: 'OK', closeOnPressEscape: true})
           return
         }
         this.dialogVisible = true
