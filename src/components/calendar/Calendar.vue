@@ -28,6 +28,7 @@
 <script>
   import moment from 'moment'
   import db from './../../firebaseInit'
+  import { MessageBox } from 'element-ui'
   import Tile from './Tile'
   import AssignEvent from './AssignEvent'
 
@@ -74,6 +75,11 @@
         if (day.isBefore(this.selectedMonth, 'month')) {
           return
         }
+        if (day.isAfter(moment(), 'day')) {
+          MessageBox.alert('Whoops, can\'t assign event to a future date! By assigning event you mark what have happened, not what will happen', 'Future day', {
+            confirmButtonText: 'OK'})
+          return
+        }
         this.dialogVisible = true
         this.selectedDay = day
       },
@@ -85,6 +91,7 @@
       }
     },
     components: {
+      MessageBox,
       AssignEvent,
       Tile
     }

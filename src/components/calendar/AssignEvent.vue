@@ -30,7 +30,7 @@
         this.$emit('closeAssignEventDialog')
       },
       assignEvent (event) {
-        db.ref('events/' + event['.key']).child('assignments').push().set(this.date.valueOf())
+        db.ref('events/' + event['.key']).child('assignments').push().set(this.date.startOf('day').valueOf())
         this.closeDialog()
       }
     }

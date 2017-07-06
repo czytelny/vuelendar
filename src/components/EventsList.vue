@@ -10,9 +10,13 @@
           {{event.name}}
           <i class="el-icon float-right el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
         </template>
-        <div>In this month: {{assignmentsInThisMonth(event)}}</div>
-        <div>Days since last: {{daysSinceLast(event)}}</div>
-        <div>Longest strike:</div>
+        <el-row>
+          <el-col :span="12">In this month</el-col>
+          <el-col :span="4" class="bold">{{assignmentsInThisMonth(event)}}</el-col>
+        </el-row><el-row>
+          <el-col :span="12">Days since last</el-col>
+          <el-col :span="4" class="bold">{{daysSinceLast(event)}}</el-col>
+        </el-row>
       </el-collapse-item>
     </el-collapse>
     <div class="color-picker-container" v-if="colorPickerVisible">
@@ -58,20 +62,24 @@
         return _filter(event.assignments, (item) => moment(item).isSame(moment(), 'month')).length
       },
       daysSinceLast (event) {
-        if (!event.assignments) {
-          return 0
-        }
-        if (event.assignments.length < 2) {
-          return 0
-        }
         let closestDate = moment('1970-01-01 00:00:00')
-        return _each(event.assignments, (item) => {
-          if (moment(item).isBefore(moment(), 'day') && (moment(item).isAfter(moment(closestDate)))) {
-            closestDate = moment(item)
+        if (!event.assignments || event.assignments.length < 2) {
+          return 0
+        }
+        const today = moment().startOf('day')
+        _each(event.assignments, (item) => {
+          const itemDate = moment(item)
+          if (itemDate.isSame(today, 'day')) {
+            closestDate = itemDate
           }
-          console.log(event.name, closestDate)
-          return closestDate
+          if (itemDate.isBefore(today, 'day') && (itemDate.isAfter(closestDate))) {
+            closestDate = itemDate
+          }
         })
+        if (closestDate.isSame(moment('1970-01-01 00:00:00'))) {
+          return 0
+        }
+        return today.diff(closestDate, 'days')
       },
       components: {
         'chrome-picker': Chrome
@@ -83,6 +91,9 @@
 <style>
   .eventList {
     position: relative;
+  }
+  .bold {
+    font-weight: bold;
   }
 
   .color-icon {

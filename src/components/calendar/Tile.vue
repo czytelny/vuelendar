@@ -2,7 +2,8 @@
   <div class="tile" :class="{'today': isToday,
                               'weekend': isWeekend,
                               'sunday': isSunday,
-                              'isPastMonth': isPastMonth}">
+                              'isPastMonth': isPastMonth,
+                              'isDayInFuture': isDayInFuture}">
     <div>{{day.date()}} <span v-if="isToday">(today)</span></div>
 
     <span v-for="event in todayEvents">
@@ -45,6 +46,9 @@
       },
       isPastMonth () {
         return this.day.isBefore(this.selectedMonth, 'month')
+      },
+      isDayInFuture () {
+        return this.day.isAfter(moment(), 'day')
       }
     },
     methods: {
@@ -95,5 +99,10 @@
   .isPastMonth {
     background-color: #dbdbdb;
     opacity: .25;
+  }
+
+  .isDayInFuture{
+    background-color: #e0f6f9;
+    opacity: .3;
   }
 </style>
