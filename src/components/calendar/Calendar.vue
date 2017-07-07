@@ -38,7 +38,7 @@
     data () {
       return {
         dialogVisible: false,
-        selectedDay: null,
+        selectedDay: moment(),
         selectedMonth: moment()
       }
     },
@@ -110,6 +110,10 @@
     text-align: center;
   }
 
+  .calendar {
+    width: 100%;
+  }
+
   .monthSwitcher {
     text-align: center;
   }
@@ -130,5 +134,6 @@
     display: flex;
     flex-wrap: wrap;
     margin: 2px;
+    width: 100%;
   }
 </style>

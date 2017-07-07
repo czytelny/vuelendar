@@ -37,12 +37,18 @@
     methods: {
       saveEvent (eventName) {
         if (eventName.length !== 0) {
+          if (this.events.length > 10) {
+            Message.error({
+              message: 'Sorry, too much events on the list :(',
+              type: 'error'
+            })
+            return
+          }
           db.ref('events/').push({
             name: eventName,
             color: randomColor.getColor()
           })
           Message.success({
-            title: 'Success',
             message: 'Event added',
             type: 'success'
           })

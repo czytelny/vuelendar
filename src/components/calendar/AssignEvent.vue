@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="Assign event"
+    :title="`Assign event to ${this.formattedDate}`"
     :visible="dialogVisible"
     size="tiny"
     :before-close="closeDialog"
@@ -26,6 +26,11 @@
   export default {
     name: 'assignEvent',
     props: ['date', 'events', 'dialogVisible'],
+    computed: {
+      formattedDate () {
+        return this.date.format('Do MMMM YYYY')
+      }
+    },
     methods: {
       closeDialog () {
         this.$emit('closeAssignEventDialog')
