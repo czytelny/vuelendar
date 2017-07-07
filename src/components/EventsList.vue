@@ -1,7 +1,9 @@
 <template>
   <div class="eventList">
     <el-collapse v-model="activeName" accordion>
-      <el-collapse-item :name="event['.key']" v-for="event in events" :key="event['.key']">
+      <el-collapse-item :name="event['.key']"
+                        v-for="event in events"
+                        :key="event['.key']">
         <template slot="title" class="title">
           <span class="color-icon"
                 :style="{'background-color': event.color}"
@@ -10,14 +12,7 @@
           {{event.name}}
           <i class="el-icon float-right el-icon-delete" @click.stop="removeEvent(event['.key'])"></i>
         </template>
-        <el-row>
-          <el-col :span="12">In this month</el-col>
-          <el-col :span="4" class="bold">{{assignmentsInThisMonth(event)}}</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">Days since last</el-col>
-          <el-col :span="4" class="bold">{{daysSinceLast(event)}}</el-col>
-        </el-row>
+        <event-statistics :event="event"></event-statistics>
       </el-collapse-item>
     </el-collapse>
     <div class="color-picker-container" v-if="colorPickerVisible">
@@ -30,10 +25,8 @@
 
 <script>
   import { Chrome } from 'vue-color'
-  import _filter from 'lodash/filter'
-  import _each from 'lodash/each'
-  import moment from 'moment'
   import { MessageBox, Message } from 'element-ui'
+  import EventStatistics from './EventStatistics'
 
   export default {
     name: 'EventsList',
@@ -68,34 +61,11 @@
         this.colorPickerVisible = false
         const color = this.pickedColor.hex ? this.pickedColor.hex : this.pickedColor
         this.$emit('changeColor', {eventId: this.pickedEvent['.key'], color})
-      },
-      assignmentsInThisMonth (event) {
-        return _filter(event.assignments, (item) => moment(item).isSame(moment(), 'month')).length
-      },
-      daysSinceLast (event) {
-        let closestDate = moment('1970-01-01 00:00:00')
-        const today = moment().startOf('day')
-
-        if (!event.assignments || event.assignments.length < 2) {
-          return 0
-        }
-        _each(event.assignments, (item) => {
-          const itemDate = moment(item)
-          if (itemDate.isSame(today, 'day')) {
-            closestDate = itemDate
-          }
-          if (itemDate.isBefore(today, 'day') && (itemDate.isAfter(closestDate))) {
-            closestDate = itemDate
-          }
-        })
-        if (closestDate.isSame(moment('1970-01-01 00:00:00'))) {
-          return 0
-        }
-        return today.diff(closestDate, 'days')
       }
     },
     components: {
-      'chrome-picker': Chrome
+      'chrome-picker': Chrome,
+      EventStatistics
     }
   }
 </script>
