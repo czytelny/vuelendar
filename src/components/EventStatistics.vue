@@ -1,8 +1,12 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="12">In this month</el-col>
+      <el-col :span="12">In {{currentMonth}}</el-col>
       <el-col :span="4" class="bold">{{assignmentsInThisMonth(event)}}</el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">Average in {{currentMonth}}</el-col>
+      <el-col :span="4" class="bold">{{averageInThisMonth(event)}}</el-col>
     </el-row>
     <el-row>
       <el-col :span="12">Days since last</el-col>
@@ -19,9 +23,17 @@
   export default {
     name: 'event-statistics',
     props: ['event'],
+    computed: {
+      currentMonth () {
+        return moment().format('MMMM')
+      }
+    },
     methods: {
       assignmentsInThisMonth (event) {
         return _filter(event.assignments, (item) => moment(item).isSame(moment(), 'month')).length
+      },
+      averageInThisMonth (event) {
+        return this.assignmentsInThisMonth(event) / moment().date()
       },
       daysSinceLast (event) {
         let closestDate = moment('1970-01-01 00:00:00')
