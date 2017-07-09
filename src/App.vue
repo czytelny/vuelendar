@@ -57,4 +57,10 @@
   .pointer {
     cursor: pointer;
   }
+
+  @media (max-width: 767px) {
+    .el-dialog {
+      width: 100%;
+    }
+  }
 </style>

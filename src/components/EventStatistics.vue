@@ -33,7 +33,7 @@
         return _filter(event.assignments, (item) => moment(item).isSame(moment(), 'month')).length
       },
       averageInThisMonth (event) {
-        return this.assignmentsInThisMonth(event) / moment().date()
+        return (this.assignmentsInThisMonth(event) / moment().date()).toFixed(2)
       },
       daysSinceLast (event) {
         let closestDate = moment('1970-01-01 00:00:00')

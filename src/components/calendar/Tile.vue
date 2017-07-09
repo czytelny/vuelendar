@@ -4,7 +4,7 @@
                               'sunday': isSunday,
                               'isPastMonth': isPastMonth,
                               'isDayInFuture': isDayInFuture}">
-    <div>{{day.date()}} <span v-if="isToday">(today)</span></div>
+    <div><span class="day">{{day.date()}}</span> <span v-if="isToday">(today)</span></div>
 
     <span v-for="event in todayEvents">
             <span v-for="assignment in todayAssignments(event)">
@@ -86,6 +86,18 @@
   .today {
     background-color: rgba(79, 192, 141, 0.25);
     border: 1px solid #4fc08d;
+  }
+
+  .today .day {
+    background-color: #4fc08d;
+    border-radius: 100%;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    color: white;
+    padding-top: 2px;
+    box-sizing: border-box;
+    text-align: center;
   }
 
   .weekend {
