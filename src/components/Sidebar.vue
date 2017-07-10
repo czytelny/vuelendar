@@ -2,7 +2,14 @@
   <div class="sidebar hidden-sm-down">
     <header>
       <div>vuelendar</div>
-      <span class="user pointer" @click="logout">[logout] {{userName}}</span>
+      <el-tooltip content="Logout"
+                  placement="bottom">
+        <div class="user pointer" @click="logout">
+          <span> {{userName}}</span>
+          <i class="el-icon-circle-close"></i>
+        </div>
+      </el-tooltip>
+
     </header>
     <add-new-event @eventSubmit="saveEvent"></add-new-event>
     <h3><span v-if="eventsHasItems">Events</span></h3>
@@ -22,6 +29,7 @@
 
 <script>
   import firebase from './../firebaseInit'
+  import firebaseCore from 'firebase'
   import { Message } from 'element-ui'
   import AddNewEvent from './AddNewEvent'
   import EventsList from './EventsList'
@@ -29,7 +37,12 @@
 
   export default {
     name: 'sidebar',
-    props: ['userName', 'loadingInProgress', 'events'],
+    props: ['loadingInProgress', 'events'],
+    data () {
+      return {
+        userName: null
+      }
+    },
     computed: {
       eventsHasItems () {
         return this.events.length !== 0
@@ -65,6 +78,13 @@
         firebase.auth().signOut()
       }
     },
+    created () {
+      firebaseCore.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.userName = user.email
+        }
+      })
+    },
     components: {
       AddNewEvent,
       EventsList
@@ -90,7 +110,12 @@
   }
 
   .user {
-    font-size: .5em;
+    font-size: .6em;
+    color: rgba(255, 255, 255, 0.51);
+  }
+
+  .user .el-icon-circle-close {
+    font-size: .7em;
   }
 
   @media (max-width: 767px) {

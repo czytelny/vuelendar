@@ -34,7 +34,6 @@ new Vue({
   created () {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(`user is present ${JSON.stringify(user)}`)
         this.$router.push('/app')
       } else {
         console.log('user not found')

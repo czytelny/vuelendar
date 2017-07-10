@@ -15,7 +15,7 @@
     <div style="clear:both;">
       <hr/>
       <h4>I don't like to create accounts either so...</h4>
-      <el-button @click="signInWithGoogle">Sign in with Google</el-button>
+      <div><el-button @click="signInWithGoogle">Sign in with Google</el-button></div>
     </div>
   </div>
 </template>
@@ -40,13 +40,6 @@
       signInWithGoogle () {
         var provider = new firebase.auth.GoogleAuthProvider()
         firebase.auth().signInWithPopup(provider)
-          .then(function (result) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-//            var token = result.credential.accessToken
-//             The signed-in user info.
-            console.log(`logged user ${JSON.stringify(result.user)}`)
-//            this.$emit('loggedUser', result.user)
-          })
           .catch(function ({email, errorCode, errorMessage}) {
             console.error(email, errorCode, errorMessage)
           })
