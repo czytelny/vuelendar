@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import db from './../firebaseInit'
+  import firebase from './../firebaseInit'
   import { Message } from 'element-ui'
   import AddNewEvent from './AddNewEvent'
   import EventsList from './EventsList'
@@ -44,7 +44,7 @@
             })
             return
           }
-          db.ref('events/').push({
+          firebase.database().ref('events/').push({
             name: eventName,
             color: randomColor.getColor()
           })
@@ -55,11 +55,10 @@
         }
       },
       removeEvent (eventId) {
-        db.ref(`events/${eventId}`).remove()
+        firebase.database().ref(`events/${eventId}`).remove()
       },
       changeColor ({eventId, color}) {
-        console.log(eventId)
-        db.ref(`events/${eventId}`).update({color})
+        firebase.database().ref(`events/${eventId}`).update({color})
       }
     },
     components: {

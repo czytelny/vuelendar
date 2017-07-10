@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import db from '../../firebaseInit'
+  import firebase from '../../firebaseInit'
 
   export default {
     name: 'assignEvent',
@@ -36,7 +36,7 @@
         this.$emit('closeAssignEventDialog')
       },
       assignEvent (event) {
-        db.ref('events/' + event['.key']).child('assignments').push().set(this.date.startOf('day').valueOf())
+        firebase.database().ref('events/' + event['.key']).child('assignments').push().set(this.date.startOf('day').valueOf())
         this.closeDialog()
       }
     }

@@ -27,7 +27,7 @@
 
 <script>
   import moment from 'moment'
-  import db from './../../firebaseInit'
+  import firebase from './../../firebaseInit'
   import { MessageBox } from 'element-ui'
   import Tile from './Tile'
   import AssignEvent from './AssignEvent'
@@ -69,7 +69,7 @@
     methods: {
       removeAssignment ({event, assignment}) {
         const assignmentKey = Object.keys(event.assignments).find((key) => event.assignments[key] === assignment)
-        db.ref(`events/${event['.key']}/assignments/${assignmentKey}`).remove()
+        firebase.database().ref(`events/${event['.key']}/assignments/${assignmentKey}`).remove()
       },
       selectDay (day) {
         if (day.isBefore(this.selectedMonth, 'month')) {
@@ -106,6 +106,12 @@
 </script>
 
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0
+  }
   h1 {
     text-align: center;
   }

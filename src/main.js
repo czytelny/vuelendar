@@ -2,11 +2,18 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueFire from 'vuefire'
-import {Col, Row, Input, FormItem, Form, Button, Collapse,
-        CollapseItem, Loading, Dialog, Tooltip} from 'element-ui'
+import firebase from 'firebase'
+import VueRouter from 'vue-router'
+import {
+  Col, Row, Input, FormItem, Form, Button, Collapse,
+  CollapseItem, Loading, Dialog, Tooltip
+} from 'element-ui'
+
 import App from './App'
+import router from './router'
 
 Vue.config.productionTip = false
+Vue.use(VueRouter)
 Vue.use(VueFire)
 Vue.use(Col)
 Vue.use(Row)
@@ -23,6 +30,18 @@ Vue.use(Loading.directive)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
+  created () {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('user is present')
+        this.$router.push('/app')
+      } else {
+        console.log('user not found')
+        this.$router.push('/login')
+      }
+    })
+  },
   template: '<App/>',
-  components: { App }
+  components: {App}
 })
