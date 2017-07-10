@@ -15,7 +15,10 @@
     <div style="clear:both;">
       <hr/>
       <h4>I don't like to create accounts either so...</h4>
-      <div><el-button @click="signInWithGoogle">Sign in with Google</el-button></div>
+      <div>
+        <el-button @click="signInWithGoogle" class="g-btn">
+        <i class="g-icon"></i>Sign in with Google</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +56,24 @@
     text-align: center;
     margin: auto;
     max-width: 400px;
+  }
+
+  .g-btn {
+    position: relative;
+  }
+  .g-btn span {
+    padding-left: 2em;
+  }
+
+  .g-icon {
+    height: 25px;
+    width: 25px;
+    background: url('assets/g-logo.png') no-repeat;
+    background-size:  25px 25px;
+    display:inline-block;
+    position: absolute;
+    top: 5px;
+    left: 10px;
   }
 
 </style>
