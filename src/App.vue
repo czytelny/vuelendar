@@ -5,31 +5,8 @@
 </template>
 
 <script>
-  import Calendar from './components/calendar/Calendar'
-  import Sidebar from './components/Sidebar'
-  import MobileSidebar from './components/MobileSidebar'
-  import firebase from './firebaseInit'
-
   export default {
-    name: 'app',
-    data () {
-      return {
-        loadingInProgress: true
-      }
-    },
-    firebase: {
-      events: {
-        source: firebase.database().ref('events'),
-        readyCallback: function () {
-          this.loadingInProgress = false
-        }
-      }
-    },
-    components: {
-      Calendar,
-      Sidebar,
-      MobileSidebar
-    }
+    name: 'app'
   }
 </script>
 
@@ -44,10 +21,6 @@
 
   .float-right {
     float: right;
-  }
-
-  #app {
-    display: flex;
   }
 
   .pointer {

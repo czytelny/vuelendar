@@ -1,7 +1,8 @@
 <template>
   <div class="sidebar hidden-sm-down">
     <header>
-      <span>vuelendar</span>
+      <div>vuelendar</div>
+      <span class="user pointer" @click="logout">[logout] {{userName}}</span>
     </header>
     <add-new-event @eventSubmit="saveEvent"></add-new-event>
     <h3><span v-if="eventsHasItems">Events</span></h3>
@@ -28,7 +29,7 @@
 
   export default {
     name: 'sidebar',
-    props: ['loadingInProgress', 'events'],
+    props: ['userName', 'loadingInProgress', 'events'],
     computed: {
       eventsHasItems () {
         return this.events.length !== 0
@@ -59,6 +60,9 @@
       },
       changeColor ({eventId, color}) {
         firebase.database().ref(`events/${eventId}`).update({color})
+      },
+      logout () {
+        firebase.auth().signOut()
       }
     },
     components: {
@@ -83,6 +87,10 @@
     line-height: 1;
     text-align: center;
     margin: 0 0 10px;
+  }
+
+  .user {
+    font-size: .5em;
   }
 
   @media (max-width: 767px) {
