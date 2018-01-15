@@ -1,10 +1,10 @@
 <template>
 <div class="calendarContainer">
-    <calendar :events="events"></calendar>
+    <calendar :events="events"/>
     <sidebar :events="events"
              :loadingInProgress="loadingInProgress">
     </sidebar>
-    <mobile-sidebar></mobile-sidebar>
+    <mobile-sidebar/>
 </div>
 </template>
 
@@ -40,6 +40,7 @@
 <style>
   .calendarContainer {
     display: flex;
+    height: 80vh;
   }
 
 </style>

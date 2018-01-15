@@ -141,5 +141,6 @@
     flex-wrap: wrap;
     margin: 2px;
     width: 100%;
+    height: 100%;
   }
 </style>
